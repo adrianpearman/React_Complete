@@ -97,5 +97,118 @@ const renderVisibility = () => {
   )
   ReactDOM.render(template, appRoot)
 }
-
 renderVisibility()
+
+
+// CLASS EXAMPLES
+class Person {
+  constructor(name, age){
+    this.name = name || 'Name not provided'
+    this.age = age || 0
+  }
+  getGreeting(){
+    return `Hello! My name is ${this.name}!`
+  }
+  getDescription(){
+    return `Hello my name is ${this.name} and I'm currently ${this.age} years old.`
+  }
+}
+
+class Student extends Person {
+  constructor(name, age, major){
+    super(name, age)
+    this.major = major || 'Undecided'
+  }
+  hasMajor(){
+    return this.major
+  }
+  getDescription(){
+    let description = super.getDescription()
+    if (this.hasMajor()) {
+      description += ` My major is ${this.major}`
+    }
+    return description
+  }
+}
+
+class Traveller extends Person {
+  constructor(name, age, homeLocation){
+    super(name, age)
+    this.homeLocation = homeLocation
+  }
+  getGreeting(){
+    let description = super.getGreeting()
+    if (this.homeLocation) {
+      description += ` I'm currently visiting from ${this.homeLocation}`
+    }
+    return description
+  }
+}
+
+const me = new Person('Adrian Pearman', 26)
+const other = new Person()
+const me2 = new Student('Adrian Pearman', 26, 'Human Resources')
+const other2 = new Student()
+const me3 = new Traveller('Adrian Pearman', 26, 'Bermuda')
+const other3 = new Traveller()
+
+console.log(me.getDescription());
+console.log(other.getDescription());
+
+
+// COMPLIED EXAMPLE
+const app = {
+  title: 'Another Title',
+  subTitle: 'Another SubTitle',
+  options: []
+}
+
+const appRoot = document.getElementById('app')
+
+const onFormSumit = (event) =>{
+  event.preventDefault()
+  const option = event.target.elements.option.value;
+
+  if (option) {
+    app.options.push(option)
+    event.target.elements.option.value = ''
+    renderOptionsApp()
+  } else {
+    alert('Please enter an option')
+  }
+}
+
+const clearOptions = (event) => {
+  event.preventDefault()
+  app.options = []
+  renderOptionsApp()
+}
+
+const makeDecision = () => {
+  const randNumber = Math.floor(Math.random() * app.options.length)
+  const randSelection = app.options[randNumber]
+  console.log(randSelection);
+}
+
+const renderOptionsApp = () => {
+  const template =(
+   <div>
+     <h1>{app.title}</h1>
+     {app.subTitle ? <p>{app.subTitle}</p> : null}
+     {app.options.length > 0 ? <p>Here are your options</p> : <p>No options entered. <br /> Please enter an option</p>}
+     <p>{app.options.length}</p>
+     <button disabled={app.options.length === 0} onClick={makeDecision}> What should i do? </button>
+     {app.options.length === 0 ? null : <button onClick={clearOptions}>Clear Option</button>}
+     <ol>
+       {app.options.map((option) => <li key={option}>{option}</li>)}
+     </ol>
+     <form onSubmit={onFormSumit}>
+       <input type='text' name='option'/>
+       <button>Add Option</button>
+     </form>
+   </div>
+  )
+  ReactDOM.render(template, appRoot)
+}
+
+renderOptionsApp()
