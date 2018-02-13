@@ -28,6 +28,7 @@ const template2 = (
 ReactDOM.render(template2, appRoot)
 
 // COUNTER EXAMPLE
+// NON COMBILED VERSION
 let count = 0
 const addOne = () => {
   count++
@@ -67,8 +68,61 @@ renderCouterApp()
 //   }
 // }
 
+// COMPILED VERSION
+class Counter extends React.Component{
+  constructor(props){
+    super(props)
+    this.increaseByOne = this.increaseByOne.bind(this)
+    this.decreaseByOne = this.decreaseByOne.bind(this)
+    this.resetCounter = this.resetCounter.bind(this)
+    this.state = {
+      counter: 0
+    }
+  }
+
+  increaseByOne(){
+    this.setState((prevState) => {
+      return {
+        counter: prevState.counter + 1
+      }
+    })
+  }
+
+  decreaseByOne(){
+    this.setState((prevState) => {
+      return {
+        counter: prevState.counter - 1
+      }
+    })
+  }
+
+  resetCounter(){
+    this.setState((prevState) => {
+      return {
+        counter: prevState.counter = 0
+      }
+    })
+  }
+
+  render(){
+    console.log(this.state.counter)
+    return(
+      <div>
+        <h1>Count: {this.state.counter} </h1>
+        <button onClick={this.increaseByOne}>+1</button>
+        <button onClick={this.decreaseByOne}>-1</button>
+        <button onClick={this.resetCounter}>Reset</button>
+      </div>
+    )
+  }
+}
+
+
+ReactDOM.render(<Counter />, document.getElementById('app'))
+
 
 // VISIBILITY EXAMPLE
+// NON COMPILED VERSION
 let visible = false
 const visibleToggle = (event) => {
   event.preventDefault()
@@ -98,6 +152,37 @@ const renderVisibility = () => {
   ReactDOM.render(template, appRoot)
 }
 renderVisibility()
+
+// COMPILED VERSION
+class Visibility extends React.Component{
+  constructor(props){
+    super(props)
+    this.visibleToggle = this.visibleToggle.bind(this)
+    this.state = {
+      visible: false
+    }
+  }
+
+  visibleToggle(){
+    this.setState((prevState) => {
+      return {
+        visible: !prevState.visible
+      }
+    })
+  }
+
+  render(){
+    return(
+      <div>
+        <h1>Visibility Toggle</h1>
+        <button onClick={this.visibleToggle}> {this.state.visible ?  'Hide Details' : 'Show Details'} </button>
+        {this.state.visible ? <p>Here are some details</p> : null}
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<Visibility /> , document.getElementById('app'))
 
 
 // CLASS EXAMPLES
