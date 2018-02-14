@@ -28,6 +28,34 @@ var IndecisionApp = function (_React$Component) {
   }
 
   _createClass(IndecisionApp, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // verifies whether the data submitted is valid JSON
+      try {
+        var json = localStorage.getItem('options');
+        var options = JSON.parse(json);
+
+        if (options) {
+          this.setState(function () {
+            return { options: options };
+          });
+        }
+      } catch (e) {
+        // does nothing if there is an error
+      }
+    }
+
+    // saves the current state to local storage
+
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.options.length !== this.state.options.length) {
+        var json = JSON.stringify(this.state.options);
+        localStorage.setItem("options", json);
+      }
+    }
+  }, {
     key: 'handleAddOption',
     value: function handleAddOption(option) {
       if (!option) {
@@ -110,8 +138,10 @@ var AddOption = function (_React$Component2) {
         return { error: error };
       });
 
-      // Setting input to a null value
-      event.target.elements.option.value = '';
+      if (!error) {
+        // Setting input to a null value
+        event.target.elements.option.value = '';
+      }
     }
   }, {
     key: 'render',
@@ -229,6 +259,13 @@ var Action = function Action(props) {
   );
 };
 
+// Using Local Storage
+// localStorage.setItem('name'. 'Adrian')
+// localStorage.getItem('name')
+// localStorage.remove('name')
+// .clear
+// let json = JSON.stringify({ age: 26})
+// JSON.parse(json)
 // --------------------------------
 
 ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));

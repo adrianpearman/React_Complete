@@ -11,6 +11,28 @@ class IndecisionApp extends React.Component{
     }
   }
 
+  componentDidMount(){
+    // verifies whether the data submitted is valid JSON
+    try {
+      const json = localStorage.getItem('options')
+      const options = JSON.parse(json)
+
+      if (options) {
+        this.setState(() => ({ options: options }))
+      }
+    } catch (e) {
+      // does nothing if there is an error
+    }
+  }
+
+  // saves the current state to local storage
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.options.length !== this.state.options.length ) {
+      const json = JSON.stringify(this.state.options)
+      localStorage.setItem("options", json)
+    }
+  }
+
   handleAddOption (option) {
     if (!option) {
         return 'Please enter an option'
@@ -71,9 +93,12 @@ class AddOption extends React.Component{
 
     this.setState(() => ({ error: error }))
 
-    // Setting input to a null value
-    event.target.elements.option.value = ''
+    if (!error) {
+      // Setting input to a null value
+      event.target.elements.option.value = ''
+    }
   }
+
   render() {
     return(
       <div>
@@ -143,6 +168,13 @@ const Action = (props) => {
   )
 }
 
+// Using Local Storage
+// localStorage.setItem('name'. 'Adrian')
+// localStorage.getItem('name')
+// localStorage.remove('name')
+// .clear
+// let json = JSON.stringify({ age: 26})
+// JSON.parse(json)
 // --------------------------------
 
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'))
