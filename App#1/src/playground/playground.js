@@ -134,7 +134,16 @@ class Counter extends React.Component{
 
 ReactDOM.render(<Counter />, document.getElementById('app'))
 
-
+// Using Local Storage
+// localStorage.setItem('name'. 'Adrian')
+// localStorage.getItem('name')
+// localStorage.remove('name')
+// .clear - clears the local storage
+// let json = JSON.stringify({ age: 26})
+// JSON.parse(json)
+// parseInt()
+// isNaN()
+// --------------------------------
 
 // VISIBILITY EXAMPLE
 // NON COMPILED VERSION
@@ -339,3 +348,23 @@ class NewSyntax {
 const newSyntax = new NewSyntax()
 const getNewGreeting = newSyntax.getGreeting
 console.log(getNewGreeting())
+
+// props.Children EXAMPLE
+const App = (props) => {
+    return(
+      <div>
+        <p>header</p>
+        {props.children}
+        <p>footer</p>
+      </div>
+    )
+  }
+
+  ReactDOM.render((
+    <App>
+      <div>
+        <h1>Page Title</h1>
+        <p>this is my page</p>
+      </div>
+    </App>
+  ), document.getElementById('app'))
