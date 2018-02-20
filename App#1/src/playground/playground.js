@@ -312,3 +312,30 @@ const renderOptionsApp = () => {
 }
 
 renderOptionsApp()
+
+// Explaining the diference between stand ES6 coding for react and using babel-class-transform property
+class OldSyntax {
+  constructor(){
+    this.getGreeting = this.getGreeting.bind(this)
+    this.name = 'Adrian'
+  }
+  getGreeting(){
+    return `Hello my name is ${this.name}`
+  }
+}
+
+const oldSyntax = new OldSyntax()
+const getGreeting = oldSyntax.getGreeting
+console.log(getGreeting())
+
+// The newer syntax would allow for the constructor to no longer be needed in the application
+class NewSyntax {
+  name='Adrian1'
+  getGreeting = () => {
+    return `Hello my name is ${this.name}`
+  }
+}
+
+const newSyntax = new NewSyntax()
+const getNewGreeting = newSyntax.getGreeting
+console.log(getNewGreeting())

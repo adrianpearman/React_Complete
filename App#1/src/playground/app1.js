@@ -181,7 +181,4 @@ const Action = (props) => {
 // --------------------------------
 
 
-
-
-
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'))
