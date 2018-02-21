@@ -7,10 +7,22 @@ const OptionModal = (props) => (
     isOpen={!!props.selectedOption}
     contentLabel='Option Selected'
     onRequestClose={props.closeModal}
+    ariaHideApp={false}
+    // will allow for the ease-out to be completed
+    closeTimeoutMS={200}
+    className='modal'
   >
-    <h3>Option Selected</h3>
-    {props.selectedOption? <p>{props.selectedOption}</p> : null}
-    <button onClick={props.closeModal}>Thanks!</button>
+    <h3 className='modal__title'>Option Selected</h3>
+    {props.selectedOption ?
+      <p className='modal__body'>
+        {props.selectedOption}
+      </p>
+      : null}
+    <button
+      className='button'
+      onClick={props.closeModal}>
+      Thanks!
+    </button>
   </Modal>
 )
 

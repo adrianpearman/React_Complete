@@ -1,13 +1,13 @@
 import React from 'react'
 
 const Option = (props) => (
-    <div>
-      <li>
-        {props.value}
-        <button onClick={() => {props.deleteOption(props.value)}}>
-          Remove
-        </button>
-      </li>
+    <div className='option'>
+      <p className='option__text'>{props.index} - {props.value}</p>
+      <button
+        className='button button--link'
+        onClick={() => {props.deleteOption(props.value)}}>
+        Remove
+      </button>
     </div>
 )
 
