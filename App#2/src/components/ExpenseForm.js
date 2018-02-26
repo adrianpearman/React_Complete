@@ -6,21 +6,25 @@ import 'react-dates/lib/css/_datepicker.css';
 
 // const date = new Date()
 const date = moment()
-console.log(date.format('MMM Do YYYY'));
-
-
-
+// console.log(date.format('MMM Do YYYY'));
 
 
 class ExpenseForm extends Component{
-  state = {
-    description: '',
-    note: '',
-    amount: '',
-    createdAt: moment(),
-    calendarFocused: false
+  constructor(props){
+    super(props)
+
+    this.state = {
+        description: props.expense ? props.expense.description : '',
+        note: props.expense ? props.expense.note : '',
+        amount: props.expense ? (props.expense.amount / 100).toString() : '',
+        createdAt: props.expense ? moment(props.expense.createdAt) : '' ,
+        calendarFocused: false,
+        submitError: ''
+      }
   }
 
+
+  // react-dates funtion to allow for dates to be selected before current date
   isOutsideRange = () => {
     return false
   }
@@ -37,13 +41,15 @@ class ExpenseForm extends Component{
 
   onAmountChange = (e) => {
     const amount = e.target.value
-    if (amount > 0 && amount.match(/^\d*(\.\d{0,2})?$/)) {
+    if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
       this.setState(() => ({ amount: amount }))
     }
   }
 
   onDateChange = (createdAt) => {
-    this.setState(() => ({ createdAt: createdAt }))
+    if (createdAt) {
+      this.setState(() => ({ createdAt: createdAt }))
+    }
   }
 
   onFocusChange = ({focused}) => {
@@ -52,12 +58,24 @@ class ExpenseForm extends Component{
 
   onExpenseSubmit = (e) => {
     e.preventDefault()
-    console.log('submitted')
+    // insures that the expenses have the right information before submitting
+    if (!this.state.description || !this.state.amount) {
+      this.setState(() => ({ submitError: 'Please provide a description and amount'}))
+    } else {
+      this.setState(() => ({ submitError: ''}))
+      this.props.onSubmit({
+        description: this.state.description,
+        amount: parseFloat(this.state.amount, 10)*100, //changes the value from a string a float value
+        createdAt: this.state.createdAt.valueOf(),
+        note: this.state.note
+      })
+    }
   }
 
   render(){
     return (
       <div>
+        { this.state.submitError ? <p>{this.state.submitError}</p> : null }
         <form onSubmit={this.onExpenseSubmit}>
           <input
             type='text'
