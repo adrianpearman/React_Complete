@@ -4,7 +4,7 @@ import { connect } from 'react-redux' // used to connect to the redux store
 import ExpenseListItem from './ExpenseListItem'
 import selectExpenses from '../redux/selectors/expenses'
 
-const ExpenseList = (props) => {
+export const ExpenseList = (props) => {
   let Expenses = props.expenses.map((expense, index) => {
       return(
         <ExpenseListItem
@@ -19,7 +19,7 @@ const ExpenseList = (props) => {
 
   return (
     <div>
-      <h1>Expense List</h1>
+      { props.expenses.length === 0 ? <p>Currently there are no Expenses</p> : null }
       {Expenses}
     </div>
   )
