@@ -1,7 +1,4 @@
-// entry point
-// output file
 const path = require('path')
-publicPath = path.join(__dirname, 'public')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = (env) => {
@@ -11,7 +8,7 @@ module.exports = (env) => {
   return {
     entry: './src/app.js',
     output: {
-      path: publicPath,
+      path: path.join(__dirname, 'public'),
       filename: 'bundle.js'
     },
     module: {

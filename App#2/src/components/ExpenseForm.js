@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
 import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates'
-import 'react-dates/lib/css/_datepicker.css';
-// import 'react-dates/lib/css/_datepicker.css'
 
 // const date = new Date()
 const date = moment()
@@ -15,9 +13,9 @@ class ExpenseForm extends Component{
 
     this.state = {
         description: props.expense ? props.expense.description : '',
-        note: props.expense ? props.expense.note : '',
+        note: props.expense ? props.expense.note : ' ',
         amount: props.expense ? (props.expense.amount / 100).toString() : '',
-        createdAt: props.expense ? moment(props.expense.createdAt) : '' ,
+        createdAt: props.expense ? moment(props.expense.createdAt) : moment() ,
         calendarFocused: false,
         submitError: ''
       }
@@ -74,16 +72,17 @@ class ExpenseForm extends Component{
 
   render(){
     return (
-      <div>
-        { this.state.submitError ? <p>{this.state.submitError}</p> : null }
-        <form onSubmit={this.onExpenseSubmit}>
+        <form className='form' onSubmit={this.onExpenseSubmit}>
+          { this.state.submitError ? <p className='form__error'>{this.state.submitError}</p> : null }
           <input
+            className='text_input'
             type='text'
             placeholder='Description'
             value={this.state.description}
             autoFocus
             onChange={this.onDescriptionChange}/>
           <input
+            className='text_input'
             type='number'
             placeholder='Amount'
             value={this.state.amount}
@@ -98,12 +97,14 @@ class ExpenseForm extends Component{
             isOutsideRange={this.isOutsideRange}
           />
           <textarea
+            className='textarea'
             placeholder='Leave a note for your expense (Optional)'
             onChange={this.onNoteChange}
           ></textarea>
-          <button>Add Expense</button>
+          <div>
+            <button className='button'>{this.props.buttonText}</button>
+          </div>
         </form>
-      </div>
     )
   }
 }
